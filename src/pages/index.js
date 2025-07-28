@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import AttributeGrid from '../components/AttributeGrid';
 import Container from '../components/Container';
@@ -11,23 +12,27 @@ import ProductCardGrid from '../components/ProductCardGrid';
 import Quote from '../components/Quote';
 import Title from '../components/Title';
 
-import { generateMockBlogData, generateMockProductData } from '../helpers/mock';
+import { generateMockBlogData } from '../helpers/mock';
+import { fetchProducts } from '../helpers/products';
 
 import * as styles from './index.module.css';
 import { Link, navigate } from 'gatsby';
 import { toOptimizedImage } from '../helpers/general';
 
 const IndexPage = () => {
-  const newArrivals = generateMockProductData(3, 'shirt');
+  const [products, setProducts] = useState([]);
   const blogData = generateMockBlogData(3);
 
   const goToShop = () => {
     navigate('/shop');
   };
 
+  useEffect(() => {
+    fetchProducts().then(setProducts);
+  }, []);
+
   return (
     <Layout disablePaddingBottom>
-      {/* Hero Container */}
       <Hero
         maxWidth={'500px'}
         image={'/banner1.png'}
@@ -37,11 +42,10 @@ const IndexPage = () => {
         ctaAction={goToShop}
       />
 
-      {/* Message Container */}
       <div className={styles.messageContainer}>
         <p>
-          This is a demonstration of the Sydney theme for verse by{' '}
-          <span className={styles.gold}>matter design.</span>
+          This is a demonstration of the Swagyo verse by{' '}
+          <span className={styles.gold}>swagyo.</span>
         </p>
         <p>
           wear by <span className={styles.gold}>sunspel</span> and{' '}
@@ -49,7 +53,6 @@ const IndexPage = () => {
         </p>
       </div>
 
-      {/* Collection Container */}
       <div className={styles.collectionContainer}>
         <Container size={'large'}>
           <Title name={'New Collection'} />
@@ -57,7 +60,6 @@ const IndexPage = () => {
         </Container>
       </div>
 
-      {/* New Arrivals */}
       <div className={styles.newArrivalsContainer}>
         <Container>
           <Title name={'New Arrivals'} link={'/shop'} textLink={'view all'} />
@@ -66,12 +68,11 @@ const IndexPage = () => {
             showSlider
             height={480}
             columns={3}
-            data={newArrivals}
+            data={products}
           />
         </Container>
       </div>
 
-      {/* Highlight  */}
       <div className={styles.highlightContainer}>
         <Container size={'large'} fullMobile>
           <Highlight
@@ -80,14 +81,13 @@ const IndexPage = () => {
             miniImage={'/highlightmin.png'}
             miniImageAlt={'mini highlight image'}
             title={'Luxury Knitwear'}
-            description={`This soft lambswool jumper is knitted in Scotland, using yarn from one of the world's oldest spinners based in Fife`}
+            description={`This soft lambswool jumper is knitted in india, using yarn from one of the world's oldest spinners based in Fife`}
             textLink={'shop now'}
             link={'/shop'}
           />
         </Container>
       </div>
 
-      {/* Promotion */}
       <div className={styles.promotionContainer}>
         <Hero image={toOptimizedImage('/banner2.png')} title={`-50% off \n All Essentials`} />
         <div className={styles.linkContainers}>
@@ -96,16 +96,14 @@ const IndexPage = () => {
         </div>
       </div>
 
-      {/* Quote */}
       <Quote
         bgColor={'var(--standard-light-grey)'}
-        title={'about Sydney'}
+        title={'about Swagyo'}
         quote={
           '“We believe in two things: the pursuit of quality in everything we do, and looking after one another. Everything else should take care of itself.”'
         }
       />
 
-      {/* Blog Grid */}
       <div className={styles.blogsContainer}>
         <Container size={'large'}>
           <Title name={'Journal'} subtitle={'Notes on life and style'} />
@@ -113,7 +111,6 @@ const IndexPage = () => {
         </Container>
       </div>
 
-      {/* Promotion */}
       <div className={styles.sustainableContainer}>
         <Hero
           image={toOptimizedImage('/banner3.png')}
@@ -127,11 +124,10 @@ const IndexPage = () => {
         />
       </div>
 
-      {/* Social Media */}
       <div className={styles.socialContainer}>
         <Title
           name={'Styled by You'}
-          subtitle={'Tag @sydney to be featured.'}
+          subtitle={'Tag @swagyo to be featured.'}
         />
         <div className={styles.socialContentGrid}>
           <img src={toOptimizedImage(`/social/socialMedia1.png`)} alt={'social media 1'} />
@@ -140,6 +136,7 @@ const IndexPage = () => {
           <img src={toOptimizedImage(`/social/socialMedia4.png`)} alt={'social media 4'} />
         </div>
       </div>
+
       <AttributeGrid />
     </Layout>
   );
