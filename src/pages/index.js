@@ -13,7 +13,7 @@ import Quote from '../components/Quote';
 import Title from '../components/Title';
 
 import { generateMockBlogData } from '../helpers/mock';
-import { fetchProducts } from '../helpers/products';
+import { getProducts } from '../helpers/products'; // ✅ Corrected import
 
 import * as styles from './index.module.css';
 import { Link, navigate } from 'gatsby';
@@ -28,7 +28,7 @@ const IndexPage = () => {
   };
 
   useEffect(() => {
-    fetchProducts().then(setProducts);
+    getProducts().then(setProducts); // ✅ Fixed Supabase fetch
   }, []);
 
   return (
